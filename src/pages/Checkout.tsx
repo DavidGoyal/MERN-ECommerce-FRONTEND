@@ -1,5 +1,4 @@
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +9,7 @@ import { refetchProducts, resetCart } from "../redux/reducer/cartReducer";
 import { RootState } from "../redux/store";
 import { NewOrderRequest } from "../types/api-types";
 import { CustomError } from "../types/types";
+import { loadStripe } from "@stripe/stripe-js";
 
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_API_KEY);
