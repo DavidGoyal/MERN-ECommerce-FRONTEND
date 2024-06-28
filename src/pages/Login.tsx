@@ -4,12 +4,15 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { auth } from '../firebase';
-import { useLoginMutation } from '../redux/api/userApi';
+import { getUser, useLoginMutation } from '../redux/api/userApi';
 import { MessageResponse } from '../types/api-types';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { userExists } from '../redux/reducer/userReducer';
 
 const Login = () => {
     const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const [gender,setGender]=useState<string>("");
     const [date,setDate]=useState<string>("");
@@ -34,6 +37,8 @@ const Login = () => {
 
             if("data" in res){
                 toast.success(res.data?.message || "Logged In Successfully");
+                const data = await getUser(user.uid);
+                dispatch(userExists(data?.user!));
                 navigate("/");
             }
             else{
