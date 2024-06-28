@@ -1,5 +1,5 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
@@ -45,9 +45,11 @@ const Login = () => {
                 const error=res.error as FetchBaseQueryError;
                 const message=error.data as MessageResponse;
                 toast.error(message.message)
+                await signOut(auth);
             }
         } catch (error) {
             toast.error("Sign In Fail");
+            await signOut(auth);
         }
     }
 
